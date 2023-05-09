@@ -1,38 +1,62 @@
 package com.ing.zoo;
 
+import com.ing.zoo.animal.Animal;
+import com.ing.zoo.animal.Carnivore;
+import com.ing.zoo.animal.Herbivore;
+import com.ing.zoo.concrete.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Zoo {
-    public static void main(String[] args)
-    {
-        String[] commands = new String[4];
-        commands[0] = "hello";
-        commands[1] = "give leaves";
-        commands[2] = "give meat";
-        commands[3] = "perform trick";
+    public static void main(String[] args) {
+        String[] commands = {"hello", "give leaves", "give meat", "perform trick"};
 
-        Lion henk = new Lion();
-        henk.name = "henk";
-        Hippo elsa = new Hippo();
-        elsa.name = "elsa";
-        Pig dora = new Pig();
-        dora.name = "dora";
-        Tiger wally = new Tiger();
-        wally.name = "wally";
-        Zebra marty = new Zebra();
-        marty.name = "marty";
+        List<Animal> animals = new ArrayList<>();
+        animals.add(new Pig("Luuk"));
+        animals.add(new Lion("Alex"));
+        animals.add(new Hippo("Moto Moto"));
+        animals.add(new BeardedDragon("Rick"));
+        animals.add(new Zebra("Marty"));
+        animals.add(new Tiger("Shere Khan"));
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Voer uw command in: ");
-
+        System.out.print("Enter command: ");
         String input = scanner.nextLine();
-        if(input.equals(commands[0] + " henk"))
-        {
-            henk.sayHello();
-        }
-        else
-        {
-            System.out.println("Unknown command: " + input);
+
+        switch (input) {
+            case "hello":
+                for (Animal animal : animals) {
+                    System.out.print(animal.getName() + ": ");
+                    animal.sayHello();
+                }
+                break;
+            case "give leaves":
+                for (Animal animal : animals) {
+                    if (animal instanceof Herbivore) {
+                        System.out.print(animal.getName() + ": ");
+                        ((Herbivore) animal).eatLeaves();
+                    }
+                }
+                break;
+            case "give meat":
+                for (Animal animal : animals) {
+                    if (animal instanceof Carnivore) {
+                        System.out.print(animal.getName() + ": ");
+                        ((Carnivore) animal).eatMeat();
+                    }
+                }
+                break;
+            case "perform trick":
+                for (Animal animal : animals) {
+                    System.out.print(animal.getName() + ": ");
+                    animal.performTrick();
+                }
+                break;
+            default:
+                System.out.println("Unknown command: " + input);
+                break;
         }
     }
 }
