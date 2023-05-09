@@ -25,38 +25,55 @@ public class Zoo {
         System.out.print("Enter command: ");
         String input = scanner.nextLine();
 
-        switch (input) {
-            case "hello":
+        if (input.startsWith("hello")) {
+            String name = input.substring("hello".length()).trim();
+            if (name.isEmpty()) {
                 for (Animal animal : animals) {
                     System.out.print(animal.getName() + ": ");
                     animal.sayHello();
                 }
-                break;
-            case "give leaves":
+            } else {
+                boolean found = false;
                 for (Animal animal : animals) {
-                    if (animal instanceof Herbivore) {
+                    if (animal.getName().equalsIgnoreCase(name)) {
                         System.out.print(animal.getName() + ": ");
-                        ((Herbivore) animal).eatLeaves();
+                        animal.sayHello();
+                        found = true;
+                        break;
                     }
                 }
-                break;
-            case "give meat":
-                for (Animal animal : animals) {
-                    if (animal instanceof Carnivore) {
-                        System.out.print(animal.getName() + ": ");
-                        ((Carnivore) animal).eatMeat();
+                if (!found) {
+                    System.out.println("Unknown animal: " + name);
+                }
+            }
+        } else {
+            switch (input) {
+                case "give leaves":
+                    for (Animal animal : animals) {
+                        if (animal instanceof Herbivore) {
+                            System.out.print(animal.getName() + ": ");
+                            ((Herbivore) animal).eatLeaves();
+                        }
                     }
-                }
-                break;
-            case "perform trick":
-                for (Animal animal : animals) {
-                    System.out.print(animal.getName() + ": ");
-                    animal.performTrick();
-                }
-                break;
-            default:
-                System.out.println("Unknown command: " + input);
-                break;
+                    break;
+                case "give meat":
+                    for (Animal animal : animals) {
+                        if (animal instanceof Carnivore) {
+                            System.out.print(animal.getName() + ": ");
+                            ((Carnivore) animal).eatMeat();
+                        }
+                    }
+                    break;
+                case "perform trick":
+                    for (Animal animal : animals) {
+                        System.out.print(animal.getName() + ": ");
+                        animal.performTrick();
+                    }
+                    break;
+                default:
+                    System.out.println("Unknown command: " + input);
+                    break;
+            }
         }
     }
 }
